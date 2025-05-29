@@ -1,6 +1,7 @@
 package dim.kal.com.models;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -15,6 +16,7 @@ public class Teacher extends PanacheEntity {
 
 
     @OneToMany(mappedBy="teacher")
+    @JsonbTransient
     private List<ClassEntity> classes;
 
 

@@ -1,7 +1,7 @@
 # quarkus-panache-crud-example
 for the database
 ```linux
-docker run --name quarkus-pg -e POSTGRES_USER=demo -e POSTGRES_PASSWORD=demo -e POSTGRES_DB=schooldb -p 5432:5432 -d postgres:15
+docker run --name quarkus-pg -e POSTGRES_USER=democrud -e POSTGRES_PASSWORD=democrud -e POSTGRES_DB=schooldb -p 5432:5432 -d postgres:15
 ```
 
 
@@ -72,3 +72,66 @@ Create your first JPA entity
 
 [Related Hibernate with Panache section...](https://quarkus.io/guides/hibernate-orm-panache)
 
+```mermaid
+
+classDiagram
+    class ClassEntity {
+        Long id
+        String title
+        Teacher teacher
+        List~Student~ students
+    }
+    class Teacher {
+        Long id
+        String name
+        String email
+        List~ClassEntity~ classes
+    }
+    class Student {
+        Long id
+        String name
+        String email
+        List~ClassEntity~ classes
+    }
+
+    ClassEntity --> "1" Teacher : many-to-one
+    ClassEntity --> "*" Student : many-to-many
+    Teacher --> "*" ClassEntity : one-to-many
+    Student --> "*" ClassEntity : many-to-many
+
+```
+
+
+```mermaid
+erDiagram
+    CLASSES {
+        bigint id PK
+        varchar title
+        bigint teacher_id FK
+    }
+    TEACHERS {
+        bigint id PK
+        varchar name
+        varchar email
+    }
+    STUDENTS {
+        bigint id PK
+        varchar name
+        varchar email
+    }
+    CLASSES_STUDENTS {
+        bigint class_id FK
+        bigint student_id FK
+    }
+
+    TEACHERS ||--o{ CLASSES : "has"
+    CLASSES ||--o{ CLASSES_STUDENTS : "links"
+    STUDENTS ||--o{ CLASSES_STUDENTS : "links"
+
+
+
+
+
+
+
+```

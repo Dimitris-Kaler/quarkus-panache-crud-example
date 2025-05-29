@@ -13,4 +13,7 @@ public interface ITeacherRepository {
     void save(Teacher teacher);
     void update(Long id, Teacher updatedTeacher);
     void delete(Long id);
+
+    interface IClassEntityService {
+    }
 }

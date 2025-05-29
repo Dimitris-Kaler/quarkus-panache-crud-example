@@ -1,6 +1,7 @@
 package dim.kal.com.models;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
@@ -8,14 +9,15 @@ import jakarta.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "students")
 public class Student extends PanacheEntity {
 
     private String name;
     private String email;
 
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "students")
+    @JsonbTransient
     private List<ClassEntity> classes;
 
     public String getName() {

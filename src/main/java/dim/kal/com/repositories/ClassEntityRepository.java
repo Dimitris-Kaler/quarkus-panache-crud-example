@@ -15,6 +15,11 @@ public class ClassEntityRepository implements IClassEntityRepository,PanacheRepo
     }
 
     @Override
+    public ClassEntity findByTitle(String title) {
+        return find("title",title).firstResult();
+    }
+
+    @Override
     public ClassEntity findClassById(Long id) {
         return find("id", id).firstResult();
     }

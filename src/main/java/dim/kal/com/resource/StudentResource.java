@@ -9,6 +9,7 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -53,8 +54,8 @@ public class StudentResource {
     }
 
     @GET
-    @Path("/name/{name}")
-    public Response getByName(@PathParam("name") String name) {
+    @Path("/name")
+    public Response getByName(@QueryParam("name") String name) {
         Student student = service.getStudentByName(name);
         if (student == null) {
             return Response.status(Response.Status.NOT_FOUND).build();

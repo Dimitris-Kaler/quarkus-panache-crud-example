@@ -20,7 +20,7 @@ public class ClassEntity extends PanacheEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "class_student",
+            name = "classes_students",
             joinColumns = @JoinColumn(name = "class_id"),
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
