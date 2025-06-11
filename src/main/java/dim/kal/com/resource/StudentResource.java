@@ -1,4 +1,5 @@
 package dim.kal.com.resource;
+import dim.kal.com.dtos.StudentDTO;
 import dim.kal.com.models.Student;
 import dim.kal.com.services.IStudentService;
 import jakarta.ws.rs.Consumes;
@@ -29,50 +30,50 @@ public class StudentResource {
 
     @GET
     public Response getAll(){
-        List<Student> students= service.getAllStudents();
+        List<StudentDTO> students= service.getAllStudents();
         return Response.ok(students).build();
     }
 
     @GET
     @Path("/{id}")
     public Response getById(@PathParam("id") Long id) {
-        Student student = service.getStudentById(id);
-        if (student == null) {
+        StudentDTO studentDTO = service.getStudentById(id);
+        if (studentDTO == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        return Response.ok(student).build();
+        return Response.ok(studentDTO).build();
     }
 
     @GET
     @Path("/email/{email}")
     public Response getByEmail(@PathParam("email") String email) {
-        Student student = service.getStudentByEmail(email);
-        if (student == null) {
+        StudentDTO studentDTO = service.getStudentByEmail(email);
+        if (studentDTO == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        return Response.ok(student).build();
+        return Response.ok(studentDTO).build();
     }
 
     @GET
     @Path("/name")
     public Response getByName(@QueryParam("name") String name) {
-        Student student = service.getStudentByName(name);
-        if (student == null) {
+        StudentDTO studentDTO = service.getStudentByName(name);
+        if (studentDTO == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        return Response.ok(student).build();
+        return Response.ok(studentDTO).build();
     }
 
     @POST
-    public Response create(Student student) {
-        service.createStudent(student);
-        return Response.status(Response.Status.CREATED).entity(student).build();
+    public Response create(StudentDTO studentDTO) {
+        service.createStudent(studentDTO);
+        return Response.status(Response.Status.CREATED).entity(studentDTO).build();
     }
 
     @PUT
     @Path("/{id}")
-    public Response update(@PathParam("id") Long id, Student updatedStudent) {
-        service.updateStudent(id, updatedStudent);
+    public Response update(@PathParam("id") Long id, StudentDTO updatedStudentDTO) {
+        service.updateStudent(id, updatedStudentDTO);
         return Response.ok().build();
     }
 

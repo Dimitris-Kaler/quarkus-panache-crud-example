@@ -1,5 +1,6 @@
 package dim.kal.com.resource;
 
+import dim.kal.com.dtos.TeacherDTO;
 import dim.kal.com.models.Teacher;
 import dim.kal.com.services.ITeacherService;
 import jakarta.inject.Inject;
@@ -28,38 +29,38 @@ public class TeacherResource {
     }
 
     @GET
-    public List<Teacher> getAll() {
+    public List<TeacherDTO> getAll() {
         return service.findAll();
     }
 
     @GET
     @Path("/{id}")
     public Response getById(@PathParam("id")Long id){
-       Teacher teacher=service.findById(id);
+       TeacherDTO teacherDTO =service.findById(id);
 
-       return Response.ok(teacher).build();
+       return Response.ok(teacherDTO).build();
     }
 
     @GET
     @Path("/name")
     public Response getByName(@QueryParam("name")String name){
-        Teacher teacher = service.findByName(name);
-        if (teacher == null) {
+        TeacherDTO teacherDTO = service.findByName(name);
+        if (teacherDTO == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        return Response.ok(teacher).build();
+        return Response.ok(teacherDTO).build();
     }
 
     @POST
-    public Response create(Teacher teacher) {
-        service.save(teacher);
-        return Response.status(Response.Status.CREATED).entity(teacher).build();
+    public Response create(TeacherDTO teacherDTO) {
+        service.save(teacherDTO);
+        return Response.status(Response.Status.CREATED).entity(teacherDTO).build();
     }
 
     @PUT
     @Path("/{id}")
-    public Response update(@PathParam("id") Long id, Teacher teacher) {
-        service.update(id, teacher);
+    public Response update(@PathParam("id") Long id, TeacherDTO teacherDTO) {
+        service.update(id, teacherDTO);
         return Response.ok().build();
     }
 

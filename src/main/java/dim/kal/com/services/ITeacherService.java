@@ -1,14 +1,15 @@
 package dim.kal.com.services;
 
+import dim.kal.com.dtos.TeacherDTO;
 import dim.kal.com.models.Teacher;
 
 import java.util.List;
 
 public interface ITeacherService {
-    Teacher findById(Long id);
-    List<Teacher> findAll();
-    Teacher findByName(String name);
-    void save(Teacher teacher);
-    void update(Long id, Teacher teacher);
+    TeacherDTO findById(Long id);
+    List<TeacherDTO> findAll();
+    TeacherDTO findByName(String name);
+    void save(TeacherDTO teacherDTO);
+    void update(Long id, TeacherDTO teacherDTO);
     void delete(Long id);
 }

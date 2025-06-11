@@ -2,7 +2,7 @@ package dim.kal.com.resource;
 
 
 
-import dim.kal.com.models.ClassEntity;
+import dim.kal.com.dtos.ClassEntityDTO;
 import dim.kal.com.services.IClassEntityService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
@@ -39,7 +39,7 @@ public class ClassEntityResource {
     @GET
     @Path("/{id}")
     public Response getClassById(@PathParam("id")Long id){
-        ClassEntity existing = service.findClassById(id);
+        ClassEntityDTO existing = service.findClassById(id);
 
        return existing != null?Response.ok(existing).build():Response.status(Response.Status.NOT_FOUND).build();
     }
@@ -47,7 +47,7 @@ public class ClassEntityResource {
     @GET
     @Path("/teacher/{teacherId}")
     public Response getByTeacher(@PathParam("teacherId") Long teacherId) {
-        List<ClassEntity> existing = service.findByTeacherId(teacherId);
+        List<ClassEntityDTO> existing = service.findByTeacherId(teacherId);
         return existing != null?Response.ok(existing).build():Response.status(Response.Status.NOT_FOUND).build();
 
     }
@@ -55,22 +55,22 @@ public class ClassEntityResource {
     @GET
     @Path("/title")
     public Response getByTitle(@QueryParam("title")String title){
-       ClassEntity existing = service.findClassEntityByTitle(title);
+       ClassEntityDTO existing = service.findClassEntityByTitle(title);
 
        return existing !=null?Response.ok(existing).build():Response.status(Response.Status.NOT_FOUND).build();
     }
 
 
     @POST
-    public Response createClass(ClassEntity classEntity) {
-        service.save(classEntity);
+    public Response createClass(ClassEntityDTO classEntityDTO) {
+        service.save(classEntityDTO);
         return Response.status(Response.Status.CREATED).build();
     }
 
     @PUT
     @Path("/{id}")
-    public Response updateClass(@PathParam("id") Long id, ClassEntity classEntity) {
-        service.update(id, classEntity);
+    public Response updateClass(@PathParam("id") Long id, ClassEntityDTO classEntityDTO) {
+        service.update(id, classEntityDTO);
         return Response.ok().build();
     }
 
