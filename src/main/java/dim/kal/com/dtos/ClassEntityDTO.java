@@ -1,11 +1,22 @@
 package dim.kal.com.dtos;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.List;
 
 public class ClassEntityDTO {
+
     private Long id;
+
+//    @NotNull(message = "Class title must not be null")
+//    @NotEmpty(message = "Class title  must not ber empty")
+//    @Size(min = 2, max = 50,message = "Class title must be between 2 and 50 characters")
     private String title;
+
     private TeacherDTO teacher;
+
     private List<StudentDTO> students;
 
     public Long getId() {

@@ -2,6 +2,7 @@ package dim.kal.com.resource;
 import dim.kal.com.dtos.StudentDTO;
 import dim.kal.com.models.Student;
 import dim.kal.com.services.IStudentService;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -65,14 +66,14 @@ public class StudentResource {
     }
 
     @POST
-    public Response create(StudentDTO studentDTO) {
+    public Response create(@Valid StudentDTO studentDTO) {
         service.createStudent(studentDTO);
         return Response.status(Response.Status.CREATED).entity(studentDTO).build();
     }
 
     @PUT
     @Path("/{id}")
-    public Response update(@PathParam("id") Long id, StudentDTO updatedStudentDTO) {
+    public Response update(@PathParam("id") Long id, @Valid StudentDTO updatedStudentDTO) {
         service.updateStudent(id, updatedStudentDTO);
         return Response.ok().build();
     }

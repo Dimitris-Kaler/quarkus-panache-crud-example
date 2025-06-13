@@ -2,11 +2,14 @@ package dim.kal.com.services;
 
 import dim.kal.com.dtos.TeacherDTO;
 import dim.kal.com.mappers.TeacherMapper;
+import dim.kal.com.models.ApiException;
 import dim.kal.com.models.Teacher;
 import dim.kal.com.repositories.ITeacherRepository;
+import dim.kal.com.validators.TeacherDTOValidator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,9 +21,11 @@ public class TeacherService implements ITeacherService{
 
     TeacherMapper mapper;
 
-    @Inject
-    public TeacherService(ITeacherRepository repository,TeacherMapper mapper){
+    TeacherDTOValidator validator;
 
+    @Inject
+    public TeacherService(ITeacherRepository repository,TeacherMapper mapper, TeacherDTOValidator validator){
+        this.validator = validator;
         this.repository=repository;
         this.mapper = mapper;
     }
@@ -28,7 +33,11 @@ public class TeacherService implements ITeacherService{
 
     @Override
     public TeacherDTO findById(Long id) {
-        return mapper.toDTO(repository.findById(id));
+        Teacher teacher = repository.findById(id);
+        if (teacher == null) {
+            throw new ApiException("Teacher with ID " + id + " not found", Response.Status.NOT_FOUND);
+        }
+        return mapper.toDTO(teacher);
     }
 
     @Override
@@ -39,33 +48,38 @@ public class TeacherService implements ITeacherService{
 
     @Override
     public TeacherDTO findByName(String name) {
-
-        return mapper.toDTO(repository.findByName(name));
+        Teacher teacher = repository.findByName(name);
+        if (teacher == null) {
+            throw new ApiException("Teacher with name '" + name + "' not found", Response.Status.NOT_FOUND);
+        }
+        return mapper.toDTO(teacher);
     }
 
     @Override
     @Transactional
     public void save(TeacherDTO teacherDTO) {
+        validator.validate(teacherDTO);
         repository.save(mapper.toEntity(teacherDTO));
     }
 
     @Override
     @Transactional
     public void update(Long id, TeacherDTO updatedTeacherDTO) {
+        validator.validate(updatedTeacherDTO);
+        Teacher existing = repository.findById(id);
+        if (existing == null) {
+            throw new ApiException("Cannot update — teacher with ID " + id + " not found", Response.Status.NOT_FOUND);
+        }
         repository.update(id, mapper.toEntity(updatedTeacherDTO));
-//        Teacher existing = repository.findById(id);
-//        if(existing !=null){
-//            existing.setName(updatedTeacherDTO.getName());
-//            existing.setEmail(updatedTeacherDTO.getEmail());
-//        }
-
-
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
+        Teacher existing = repository.findById(id);
+        if (existing == null) {
+            throw new ApiException("Cannot delete — teacher with ID " + id + " not found", Response.Status.NOT_FOUND);
+        }
         repository.delete(id);
-
     }
 }

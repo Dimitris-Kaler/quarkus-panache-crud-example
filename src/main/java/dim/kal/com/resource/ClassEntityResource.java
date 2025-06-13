@@ -5,6 +5,7 @@ package dim.kal.com.resource;
 import dim.kal.com.dtos.ClassEntityDTO;
 import dim.kal.com.services.IClassEntityService;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -62,14 +63,14 @@ public class ClassEntityResource {
 
 
     @POST
-    public Response createClass(ClassEntityDTO classEntityDTO) {
+    public Response createClass(@Valid ClassEntityDTO classEntityDTO) {
         service.save(classEntityDTO);
         return Response.status(Response.Status.CREATED).build();
     }
 
     @PUT
     @Path("/{id}")
-    public Response updateClass(@PathParam("id") Long id, ClassEntityDTO classEntityDTO) {
+    public Response updateClass(@PathParam("id") Long id, @Valid ClassEntityDTO classEntityDTO) {
         service.update(id, classEntityDTO);
         return Response.ok().build();
     }

@@ -10,12 +10,21 @@ repositories {
 
 dependencies {
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
-    implementation 'io.quarkiverse.microprofile:quarkus-microprofile:3.4.0'
+//    implementation ('io.quarkiverse.microprofile:quarkus-microprofile:3.4.0')
+    implementation 'io.quarkus:quarkus-rest-jsonb'
+    implementation 'io.quarkus:quarkus-rest'
     implementation 'io.quarkus:quarkus-hibernate-orm-panache'
     implementation 'io.quarkus:quarkus-arc'
+    implementation 'io.quarkus:quarkus-smallrye-openapi'
     implementation 'io.quarkus:quarkus-hibernate-orm'
-    testImplementation 'io.quarkus:quarkus-junit5'
     implementation 'io.quarkus:quarkus-jdbc-postgresql'
+    implementation 'io.quarkus:quarkus-hibernate-validator'
+
+    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.rest-assured:rest-assured:5.3.0'
+
+    // 🔽 Testcontainers
+    testImplementation 'org.testcontainers:postgresql:1.19.3'
 }
 
 group 'dim.kal.com'

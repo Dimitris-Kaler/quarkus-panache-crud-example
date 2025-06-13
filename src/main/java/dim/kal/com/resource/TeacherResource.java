@@ -4,6 +4,7 @@ import dim.kal.com.dtos.TeacherDTO;
 import dim.kal.com.models.Teacher;
 import dim.kal.com.services.ITeacherService;
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -52,14 +53,14 @@ public class TeacherResource {
     }
 
     @POST
-    public Response create(TeacherDTO teacherDTO) {
+    public Response create(@Valid  TeacherDTO teacherDTO) {
         service.save(teacherDTO);
         return Response.status(Response.Status.CREATED).entity(teacherDTO).build();
     }
 
     @PUT
     @Path("/{id}")
-    public Response update(@PathParam("id") Long id, TeacherDTO teacherDTO) {
+    public Response update(@PathParam("id") Long id, @Valid TeacherDTO teacherDTO) {
         service.update(id, teacherDTO);
         return Response.ok().build();
     }

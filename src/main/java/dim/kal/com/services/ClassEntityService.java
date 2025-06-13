@@ -4,6 +4,7 @@ import dim.kal.com.dtos.ClassEntityDTO;
 import dim.kal.com.mappers.ClassEntityMapper;
 import dim.kal.com.models.ClassEntity;
 import dim.kal.com.repositories.IClassEntityRepository;
+import dim.kal.com.validators.ClassEntityDTOValidator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -17,10 +18,13 @@ public class ClassEntityService implements IClassEntityService{
 
     ClassEntityMapper mapper;
 
+    ClassEntityDTOValidator validator;
+
     @Inject
-    public ClassEntityService(IClassEntityRepository repository,ClassEntityMapper mapper){
-        this.repository=repository;
-        this.mapper=mapper;
+    public ClassEntityService(IClassEntityRepository repository,ClassEntityMapper mapper, ClassEntityDTOValidator validator){
+        this.repository = repository;
+        this.mapper = mapper;
+        this.validator = validator;
     }
 
 
