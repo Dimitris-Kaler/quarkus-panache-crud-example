@@ -25,6 +25,11 @@ public class TeacherRepository implements PanacheRepository<Teacher>,ITeacherRep
     }
 
     @Override
+    public Teacher findByEmail(String email) {
+        return find("email", email).firstResult();
+    }
+
+    @Override
     @Transactional
     public void save(Teacher teacher) {
         persist(teacher);

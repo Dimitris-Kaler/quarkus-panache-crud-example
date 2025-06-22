@@ -10,6 +10,8 @@ public class StudentMapper implements IMapper<Student, StudentDTO>{
 
     @Override
     public StudentDTO toDTO(Student entity) {
+        if(entity == null) return null;
+
         StudentDTO dto =new StudentDTO();
         dto.setId(entity.id);
         dto.setName(entity.getName());
@@ -20,6 +22,8 @@ public class StudentMapper implements IMapper<Student, StudentDTO>{
 
     @Override
     public Student toEntity(StudentDTO dto) {
+        if(dto == null) return null;
+
         Student entity = new Student();
 
 //        entity.id = dto.getId();

@@ -22,8 +22,11 @@ dependencies {
 
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured:5.3.0'
+    testImplementation 'io.quarkus:quarkus-junit5-mockito'
+
 
     // 🔽 Testcontainers
+    testImplementation 'org.testcontainers:testcontainers:1.19.3'
     testImplementation 'org.testcontainers:postgresql:1.19.3'
 }
 
@@ -37,6 +40,7 @@ java {
 
 test {
     systemProperty "java.util.logging.manager", "org.jboss.logmanager.LogManager"
+    environment "DOCKER_HOST", "unix:///var/run/docker.sock"
 }
 compileJava {
     options.encoding = 'UTF-8'

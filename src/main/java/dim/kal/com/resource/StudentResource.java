@@ -1,7 +1,9 @@
 package dim.kal.com.resource;
+import dim.kal.com.dtos.MessageResponse;
 import dim.kal.com.dtos.StudentDTO;
 import dim.kal.com.models.Student;
 import dim.kal.com.services.IStudentService;
+import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -16,6 +18,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Path("/students")
@@ -24,7 +27,7 @@ import java.util.List;
 public class StudentResource {
     private IStudentService service;
 
-
+    @Inject
     public StudentResource(IStudentService service){
         this.service =service;
     }
@@ -39,9 +42,9 @@ public class StudentResource {
     @Path("/{id}")
     public Response getById(@PathParam("id") Long id) {
         StudentDTO studentDTO = service.getStudentById(id);
-        if (studentDTO == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
+//        if (studentDTO == null) {
+//            return Response.status(Response.Status.NOT_FOUND).build();
+//        }
         return Response.ok(studentDTO).build();
     }
 
@@ -49,9 +52,9 @@ public class StudentResource {
     @Path("/email/{email}")
     public Response getByEmail(@PathParam("email") String email) {
         StudentDTO studentDTO = service.getStudentByEmail(email);
-        if (studentDTO == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
+//        if (studentDTO == null) {
+//            return Response.status(Response.Status.NOT_FOUND).build();
+//        }
         return Response.ok(studentDTO).build();
     }
 
@@ -59,21 +62,21 @@ public class StudentResource {
     @Path("/name")
     public Response getByName(@QueryParam("name") String name) {
         StudentDTO studentDTO = service.getStudentByName(name);
-        if (studentDTO == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
+//        if (studentDTO == null) {
+//            return Response.status(Response.Status.NOT_FOUND).build();
+//        }
         return Response.ok(studentDTO).build();
     }
 
     @POST
-    public Response create(@Valid StudentDTO studentDTO) {
+    public Response create(StudentDTO studentDTO) {
         service.createStudent(studentDTO);
         return Response.status(Response.Status.CREATED).entity(studentDTO).build();
     }
 
     @PUT
     @Path("/{id}")
-    public Response update(@PathParam("id") Long id, @Valid StudentDTO updatedStudentDTO) {
+    public Response update(@PathParam("id") Long id,StudentDTO updatedStudentDTO) {
         service.updateStudent(id, updatedStudentDTO);
         return Response.ok().build();
     }

@@ -2,12 +2,14 @@ package dim.kal.com.services;
 
 import dim.kal.com.dtos.ClassEntityDTO;
 import dim.kal.com.mappers.ClassEntityMapper;
+import dim.kal.com.models.ApiException;
 import dim.kal.com.models.ClassEntity;
 import dim.kal.com.repositories.IClassEntityRepository;
 import dim.kal.com.validators.ClassEntityDTOValidator;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,13 +38,20 @@ public class ClassEntityService implements IClassEntityService{
 
     @Override
     public ClassEntityDTO findClassById(Long id) {
-
-        return mapper.toDTO(repository.findClassById(id));
+        ClassEntity classEntity = repository.findClassById(id);
+        if(classEntity == null){
+            throw new ApiException("Class with ID " + id + " not found", Response.Status.NOT_FOUND);
+        }
+        return mapper.toDTO(classEntity);
     }
 
     @Override
     public ClassEntityDTO findClassEntityByTitle(String title) {
-        return mapper.toDTO(repository.findByTitle(title));
+        ClassEntity classEntity = repository.findByTitle(title);
+        if(classEntity == null){
+            throw new ApiException("Class with name '"+title+"' not found",Response.Status.NOT_FOUND);
+        }
+        return mapper.toDTO(classEntity);
     }
 
     @Override
@@ -53,19 +62,31 @@ public class ClassEntityService implements IClassEntityService{
     @Override
     @Transactional
     public void save(ClassEntityDTO classEntityDTO) {
-        repository.save(mapper.toEntity(classEntityDTO));
+        validator.validate(classEntityDTO);
+        ClassEntity entity = mapper.toEntity(classEntityDTO);
+        System.out.println("Entity ID before persist: " + entity.id);
+        repository.save(entity);
     }
 
     @Override
     @Transactional
-    public void update(Long id, ClassEntityDTO updatedClass) {
-    repository.update(id,mapper.toEntity(updatedClass));
+    public void update(Long id, ClassEntityDTO classEntityDTO) {
+        validator.validate(classEntityDTO);
+        ClassEntity entity = repository.findClassById(id);
+        if(entity == null){
+            throw new ApiException("Class with id '"+id+"' not found",Response.Status.NOT_FOUND);
+        }
+        repository.update(id,mapper.toEntity(classEntityDTO));
 
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
+        ClassEntity entity = repository.findClassById(id);
+        if(entity == null){
+            throw new ApiException("Class with id '"+id+"' not found",Response.Status.NOT_FOUND);
+        }
         repository.delete(id);
 
 

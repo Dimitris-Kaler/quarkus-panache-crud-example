@@ -3,6 +3,7 @@ package dim.kal.com.services;
 import dim.kal.com.dtos.TeacherDTO;
 import dim.kal.com.mappers.TeacherMapper;
 import dim.kal.com.models.ApiException;
+import dim.kal.com.models.Student;
 import dim.kal.com.models.Teacher;
 import dim.kal.com.repositories.ITeacherRepository;
 import dim.kal.com.validators.TeacherDTOValidator;
@@ -31,6 +32,14 @@ public class TeacherService implements ITeacherService{
     }
 
 
+
+    @Override
+    public List<TeacherDTO> findAll() {
+
+        return repository.findAllTeachers().stream().map(mapper::toDTO).collect(Collectors.toList());
+    }
+
+
     @Override
     public TeacherDTO findById(Long id) {
         Teacher teacher = repository.findById(id);
@@ -38,12 +47,6 @@ public class TeacherService implements ITeacherService{
             throw new ApiException("Teacher with ID " + id + " not found", Response.Status.NOT_FOUND);
         }
         return mapper.toDTO(teacher);
-    }
-
-    @Override
-    public List<TeacherDTO> findAll() {
-
-        return repository.findAllTeachers().stream().map(mapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
@@ -56,10 +59,21 @@ public class TeacherService implements ITeacherService{
     }
 
     @Override
+    public TeacherDTO getTeacherByEmail(String email){
+        Teacher entity = repository.findByEmail(email);
+        if (entity == null) {
+            throw new ApiException("Teacher with email '" + email + "' not found", Response.Status.NOT_FOUND);
+        }
+
+        return mapper.toDTO(entity);
+    }
+
+    @Override
     @Transactional
     public void save(TeacherDTO teacherDTO) {
         validator.validate(teacherDTO);
-        repository.save(mapper.toEntity(teacherDTO));
+        Teacher entity = mapper.toEntity(teacherDTO);
+        repository.save(entity);
     }
 
     @Override
@@ -68,7 +82,7 @@ public class TeacherService implements ITeacherService{
         validator.validate(updatedTeacherDTO);
         Teacher existing = repository.findById(id);
         if (existing == null) {
-            throw new ApiException("Cannot update — teacher with ID " + id + " not found", Response.Status.NOT_FOUND);
+            throw new ApiException("Teacher with ID " + id + " not found", Response.Status.NOT_FOUND);
         }
         repository.update(id, mapper.toEntity(updatedTeacherDTO));
     }

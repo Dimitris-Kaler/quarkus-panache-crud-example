@@ -30,25 +30,40 @@ public class TeacherResource {
     }
 
     @GET
-    public List<TeacherDTO> getAll() {
-        return service.findAll();
+    public Response getAll() {
+        List<TeacherDTO>teachers= service.findAll();
+        return Response.ok(teachers).build();
+
     }
 
     @GET
     @Path("/{id}")
     public Response getById(@PathParam("id")Long id){
        TeacherDTO teacherDTO =service.findById(id);
+//        if (teacherDTO == null) {
+//            return Response.status(Response.Status.NOT_FOUND).build();
+//        }
 
        return Response.ok(teacherDTO).build();
+    }
+
+    @GET
+    @Path("email/{email}")
+    public Response getByEmail(@PathParam("email") String email){
+        TeacherDTO teacherDTO = service.getTeacherByEmail(email);
+//        if (teacherDTO == null) {
+//            return Response.status(Response.Status.NOT_FOUND).build();
+//        }
+        return Response.ok(teacherDTO).build();
     }
 
     @GET
     @Path("/name")
     public Response getByName(@QueryParam("name")String name){
         TeacherDTO teacherDTO = service.findByName(name);
-        if (teacherDTO == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
+//        if (teacherDTO == null) {
+//            return Response.status(Response.Status.NOT_FOUND).build();
+//        }
         return Response.ok(teacherDTO).build();
     }
 

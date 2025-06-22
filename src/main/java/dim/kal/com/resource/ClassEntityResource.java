@@ -65,7 +65,7 @@ public class ClassEntityResource {
     @POST
     public Response createClass(@Valid ClassEntityDTO classEntityDTO) {
         service.save(classEntityDTO);
-        return Response.status(Response.Status.CREATED).build();
+        return Response.status(Response.Status.CREATED).entity(classEntityDTO).build();
     }
 
     @PUT

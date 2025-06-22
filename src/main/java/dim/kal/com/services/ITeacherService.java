@@ -9,6 +9,7 @@ public interface ITeacherService {
     TeacherDTO findById(Long id);
     List<TeacherDTO> findAll();
     TeacherDTO findByName(String name);
+    TeacherDTO getTeacherByEmail(String email);
     void save(TeacherDTO teacherDTO);
     void update(Long id, TeacherDTO teacherDTO);
     void delete(Long id);

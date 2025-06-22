@@ -10,6 +10,7 @@ public interface ITeacherRepository {
     List<Teacher> findAllTeachers();
     Teacher findById(Long id);
     Teacher findByName(String name);
+    Teacher findByEmail(String email);
     void save(Teacher teacher);
     void update(Long id, Teacher updatedTeacher);
     void delete(Long id);

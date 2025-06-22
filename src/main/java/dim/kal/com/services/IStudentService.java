@@ -11,8 +11,8 @@ public interface IStudentService {
      StudentDTO getStudentByEmail(String email);
      StudentDTO getStudentByName(String name);
      void createStudent(StudentDTO studentDTO);
-    void updateStudent(Long id, StudentDTO studentDTO);
-    void deleteStudent(Long id);
+     void updateStudent(Long id, StudentDTO studentDTO);
+     void deleteStudent(Long id);
 
 
 }

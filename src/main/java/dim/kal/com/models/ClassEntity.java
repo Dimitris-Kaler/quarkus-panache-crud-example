@@ -7,6 +7,9 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.ForeignKey;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 @Entity
@@ -16,6 +19,14 @@ public class ClassEntity extends PanacheEntity {
     private String title;
 
     @ManyToOne
+    @JoinColumn(
+            name = "teacher_id",
+            foreignKey = @ForeignKey(
+                    name = "fk_classes_teacher",
+                    foreignKeyDefinition = "FOREIGN KEY (teacher_id) REFERENCES teachers(id) ON DELETE CASCADE"
+            )
+    )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Teacher teacher;
 
     @ManyToMany
