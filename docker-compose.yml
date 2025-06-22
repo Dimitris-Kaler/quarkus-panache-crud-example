@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: quarkus-apg
+    environment:
+      POSTGRES_USER: democrud
+      POSTGRES_PASSWORD: democrud
+      POSTGRES_DB: schooldb  # Βάση δεδομένων που δημιουργείται αυτόματα
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U democrud -d schooldb"]  # Ελέγχει ΟΧΙ μόνο σύνδεση αλλά και ύπαρξη βάσης
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped  # Αυτόματη επανεκκίνηση σε περίπτωση σφάλματος
+
+  app:
+    build:
+      context: .
+      dockerfile: src/main/docker/Dockerfile.jvm
+    container_name: quarkus-app
+    depends_on:
+      db:
+        condition: service_healthy  # Περιμένει μέχρι η βάση να είναι έτοιμη
+    ports:
+      - "9099:9099"
+    environment:
+      JAVA_OPTS_APPEND: "-Dquarkus.profile=dev"
+#      QUARKUS_DATASOURCE_USERNAME: democrud
+#      QUARKUS_DATASOURCE_PASSWORD: democrud
+#      QUARKUS_DATASOURCE_JDBC_URL: jdbc:postgresql://db:5432/schooldb
+#      QUARKUS_HTTP_PORT: 9099
+#      QUARKUS_PROFILE: dev
+#      QUARKUS_DEV_UI_ENABLED: "true"
+#      QUARKUS_HIBERNATE_ORM_DATABASE_GENERATION: drop-and-create  # Δημιουργεί πίνακες αυτόματα
+    restart: on-failure  # Επανεκκίνηση αν αποτύχει η εφαρμογή
+    deploy:
+      resources:
+        limits:
+          memory: 512M  # Όριο μνήμης
+
+volumes:
+  pgdata:

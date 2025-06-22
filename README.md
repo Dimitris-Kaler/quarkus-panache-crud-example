@@ -3,8 +3,15 @@ for the database
 ```linux
 docker run --name quarkus-pg -e POSTGRES_USER=democrud -e POSTGRES_PASSWORD=democrud -e POSTGRES_DB=schooldb -p 5432:5432 -d postgres:15
 ```
+sto layer p vrisketai to docker-compose run
+```linux
+docker-compose up --build | tee docker.log
+```
+otan thes na to kopseis 
+```linux
+docker-compose down -v
 
-
+```
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.

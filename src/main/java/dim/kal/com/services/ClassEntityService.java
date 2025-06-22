@@ -76,6 +76,21 @@ public class ClassEntityService implements IClassEntityService{
         if(entity == null){
             throw new ApiException("Class with id '"+id+"' not found",Response.Status.NOT_FOUND);
         }
+//todo: na blepei apo tin basi ton teahcer k allagi repo kai tests
+
+//        ClassEntity updatedEntity = mapper.toEntity(classEntityDTO);
+//
+//        if (updatedEntity.getTeacher() != null && updatedEntity.getTeacher().getId() != null) {
+//            Teacher managedTeacher = teacherRepository.findById(updatedEntity.getTeacher().getId());
+//            if (managedTeacher == null) {
+//                throw new ApiException("Teacher with id '" + updatedEntity.getTeacher().getId() + "' not found", Response.Status.NOT_FOUND);
+//            }
+//            updatedEntity.setTeacher(managedTeacher);
+//        } else {
+//            updatedEntity.setTeacher(null); // αν δεν υπάρχει teacher
+//        }
+//
+//        repository.update(id, updatedEntity);
         repository.update(id,mapper.toEntity(classEntityDTO));
 
     }

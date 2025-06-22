@@ -1,6 +1,7 @@
 package dim.kal.com.models;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -29,7 +30,7 @@ public class ClassEntity extends PanacheEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Teacher teacher;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "classes_students",
             joinColumns = @JoinColumn(name = "class_id"),
